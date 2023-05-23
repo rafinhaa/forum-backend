@@ -1,0 +1,15 @@
+{
+  "name": "forum-backend",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "src/server.ts",
+  "repository": "https://github.com/rafinhaa/forum-backend",
+  "author": "Rafinhaa",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "typescript": "^5.0.4"
+  }
+}
