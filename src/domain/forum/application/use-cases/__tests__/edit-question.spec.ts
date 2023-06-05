@@ -51,14 +51,11 @@ describe("Edit Question", () => {
   });
 
   it("should be not find a question", async () => {
-    const newQuestion = makeQuestion();
-
-    await inMemoryQuestionsRepository.create(newQuestion);
 
     expect(
       async () =>
         await sut.execute({
-          questionId: newQuestion.id.toValue(),
+          questionId: "question-1",
           authorId: "author-2",
           title: "Pergunta teste",
           content: "Conteúdo teste",

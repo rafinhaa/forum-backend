@@ -50,14 +50,11 @@ describe("Edit Answer", () => {
   });
 
   it("should be not find a answer", async () => {
-    const newAnswer = makeAnswer();
-
-    await inMemoryAnswersRepository.create(newAnswer);
 
     expect(
       async () =>
         await sut.execute({
-          answerId: newAnswer.id.toValue(),
+          answerId: "answer-1",
           authorId: "author-2",
           content: "Conteúdo teste",
         })
