@@ -1,7 +1,7 @@
 import { makeQuestion } from "__tests__/factories/make-question";
 import { InMemoryQuestionCommentsRepository } from "__tests__/repositories/in-memory-question-comments-repository";
 import { DeleteQuestionCommentUseCase } from "../delete-question-comment";
-import { makeQuestionComment } from "__tests__/factories/make-questioncomment";
+import { makeQuestionComment } from "__tests__/factories/make-question-comment";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 
 let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository;
