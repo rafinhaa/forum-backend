@@ -2,6 +2,7 @@ import { InMemoryAnswersRepository } from "__tests__/repositories/in-memory-answ
 import { makeAnswer } from "__tests__/factories/make-answer";
 import { CommentOnAnswerUseCase } from "../comment-on-answer";
 import { InMemoryAnswerCommentsRepository } from "__tests__/repositories/in-memory-answer-comments-repository";
+import { ResourceNotFoundError } from "../errors/resource-not-found- error";
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository;
@@ -35,13 +36,13 @@ describe("Comment on Answer", () => {
   it("should be not find a answer", async () => {
     const answer = makeAnswer();
 
-    expect(
-      async () =>
-        await sut.execute({
-          answerId: answer.id.toValue(),
-          authorId: answer.authorId.toValue(),
-          content: "content",
-        })
-    ).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      answerId: answer.id.toValue(),
+      authorId: answer.authorId.toValue(),
+      content: "content",
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

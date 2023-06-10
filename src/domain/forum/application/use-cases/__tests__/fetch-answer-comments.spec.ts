@@ -34,12 +34,12 @@ describe("Fetch Answer Comments", () => {
       })
     );
 
-    const { answerComments } = await sut.execute({
+    const result = await sut.execute({
       answerId: ANSWER1_ID.toString(),
       page: 1,
     });
 
-    expect(answerComments).toEqual([
+    expect(result.value?.answerComments).toEqual([
       expect.objectContaining({
         createdAt: new Date(2023, 0, 23),
         answerId: ANSWER1_ID,
@@ -64,12 +64,12 @@ describe("Fetch Answer Comments", () => {
         })
       );
     }
-    const { answerComments } = await sut.execute({
+    const result = await sut.execute({
       answerId: ANSWER1_ID.toString(),
       page: 1,
     });
 
-    expect(answerComments.length).toEqual(20);
+    expect(result.value?.answerComments.length).toEqual(20);
   });
 
   it("should be able to fetch paginate answer comments with limit", async () => {
@@ -81,12 +81,12 @@ describe("Fetch Answer Comments", () => {
         })
       );
     }
-    const { answerComments } = await sut.execute({
+    const result = await sut.execute({
       answerId: ANSWER1_ID.toString(),
       page: 1,
       limitPerPage: 5,
     });
 
-    expect(answerComments.length).toEqual(5);
+    expect(result.value?.answerComments.length).toEqual(5);
   });
 });

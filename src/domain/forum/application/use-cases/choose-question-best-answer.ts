@@ -40,7 +40,7 @@ export class ChooseQuestionBestAnswer {
     }
 
     if (question.authorId.toValue() !== authorId) {
-      throw new Error("Not allowed");
+      return left(new NotAllowedError());
     }
 
     question.bestAnswerId = answer.id;

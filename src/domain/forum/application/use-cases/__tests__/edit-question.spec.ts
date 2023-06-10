@@ -2,6 +2,8 @@ import { EditQuestionUseCase } from "../edit-question";
 import { InMemoryQuestionsRepository } from "__tests__/repositories/in-memory-questions-repository";
 import { makeQuestion } from "__tests__/factories/make-question";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { NotAllowedError } from "../errors/not-found-allowed-error";
+import { ResourceNotFoundError } from "../errors/resource-not-found- error";
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let sut: EditQuestionUseCase;
@@ -40,26 +42,26 @@ describe("Edit Question", () => {
 
     await inMemoryQuestionsRepository.create(newQuestion);
 
-    expect(() => {
-      return sut.execute({
-        questionId: newQuestion.id.toValue(),
-        authorId: "author-2",
-        title: "Pergunta teste",
-        content: "Conteúdo teste",
-      });
-    }).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      questionId: newQuestion.id.toValue(),
+      authorId: "author-2",
+      title: "Pergunta teste",
+      content: "Conteúdo teste",
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 
   it("should be not find a question", async () => {
+    const result = await sut.execute({
+      questionId: "question-1",
+      authorId: "author-2",
+      title: "Pergunta teste",
+      content: "Conteúdo teste",
+    });
 
-    expect(
-      async () =>
-        await sut.execute({
-          questionId: "question-1",
-          authorId: "author-2",
-          title: "Pergunta teste",
-          content: "Conteúdo teste",
-        })
-    ).rejects.toBeInstanceOf(Error);
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

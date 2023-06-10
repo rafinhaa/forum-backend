@@ -25,12 +25,12 @@ describe("Fetch Questions Answers", () => {
       makeAnswer({ createdAt: new Date(2023, 0, 23), questionId: QUESTION1_ID })
     );
 
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId: QUESTION1_ID.toString(),
       page: 1,
     });
 
-    expect(answers).toEqual([
+    expect(result.value?.answers).toEqual([
       expect.objectContaining({
         createdAt: new Date(2023, 0, 23),
         questionId: QUESTION1_ID,
@@ -55,12 +55,12 @@ describe("Fetch Questions Answers", () => {
         })
       );
     }
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId: QUESTION1_ID.toString(),
       page: 1,
     });
 
-    expect(answers.length).toEqual(20);
+    expect(result.value?.answers.length).toEqual(20);
   });
 
   it("should be able to fetch paginate que answers with limit", async () => {
@@ -72,12 +72,12 @@ describe("Fetch Questions Answers", () => {
         })
       );
     }
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId: QUESTION1_ID.toString(),
       page: 1,
       limitPerPage: 5,
     });
 
-    expect(answers.length).toEqual(5);
+    expect(result.value?.answers.length).toEqual(5);
   });
 });

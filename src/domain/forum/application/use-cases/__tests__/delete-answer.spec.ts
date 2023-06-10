@@ -2,6 +2,8 @@ import { InMemoryAnswersRepository } from "__tests__/repositories/in-memory-answ
 import { DeleteAnswerUseCase } from "../delete-answer";
 import { makeAnswer } from "__tests__/factories/make-answer";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { ResourceNotFoundError } from "../errors/resource-not-found- error";
+import { NotAllowedError } from "../errors/not-found-allowed-error";
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let sut: DeleteAnswerUseCase;
@@ -30,13 +32,13 @@ describe("Delete Answer", () => {
 
     await inMemoryAnswersRepository.create(newAnswer);
 
-    expect(
-      async () =>
-        await sut.execute({
-          answerId: newAnswer.id.toValue(),
-          authorId: "author-2",
-        })
-    ).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      answerId: newAnswer.id.toValue(),
+      authorId: "author-2",
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 
   it("should be not find a answer", async () => {
@@ -44,12 +46,12 @@ describe("Delete Answer", () => {
 
     await inMemoryAnswersRepository.create(newAnswer);
 
-    expect(
-      async () =>
-        await sut.execute({
-          answerId: "answer-2",
-          authorId: "author-2",
-        })
-    ).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      answerId: "answer-2",
+      authorId: "author-2",
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

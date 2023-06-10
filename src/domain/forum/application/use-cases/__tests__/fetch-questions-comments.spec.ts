@@ -35,12 +35,12 @@ describe("Fetch Questions Comments", () => {
       })
     );
 
-    const { questionComments } = await sut.execute({
+    const result = await sut.execute({
       questionId: QUESTION1_ID.toString(),
       page: 1,
     });
 
-    expect(questionComments).toEqual([
+    expect(result.value?.questionComments).toEqual([
       expect.objectContaining({
         createdAt: new Date(2023, 0, 23),
         questionId: QUESTION1_ID,
@@ -65,12 +65,12 @@ describe("Fetch Questions Comments", () => {
         })
       );
     }
-    const { questionComments } = await sut.execute({
+    const result = await sut.execute({
       questionId: QUESTION1_ID.toString(),
       page: 1,
     });
 
-    expect(questionComments.length).toEqual(20);
+    expect(result.value?.questionComments.length).toEqual(20);
   });
 
   it("should be able to fetch paginate que comments with limit", async () => {
@@ -82,12 +82,12 @@ describe("Fetch Questions Comments", () => {
         })
       );
     }
-    const { questionComments } = await sut.execute({
+    const result = await sut.execute({
       questionId: QUESTION1_ID.toString(),
       page: 1,
       limitPerPage: 5,
     });
 
-    expect(questionComments.length).toEqual(5);
+    expect(result.value?.questionComments.length).toEqual(5);
   });
 });
