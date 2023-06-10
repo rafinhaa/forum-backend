@@ -3,6 +3,8 @@ import { InMemoryAnswerCommentsRepository } from "__tests__/repositories/in-memo
 import { DeleteAnswerCommentUseCase } from "../delete-answer-comment";
 import { makeAnswerComment } from "__tests__/factories/make-answer-comment";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { NotAllowedError } from "../errors/not-found-allowed-error";
+import { ResourceNotFoundError } from "../errors/resource-not-found- error";
 
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository;
 let sut: DeleteAnswerCommentUseCase;
@@ -34,24 +36,24 @@ describe("Delete Answer Comment", () => {
 
     await inMemoryAnswerCommentsRepository.create(answerComment);
 
-    expect(
-      async () =>
-        await sut.execute({
-          answerCommentId: answerComment.id.toValue(),
-          authorId: "author-2",
-        })
-    ).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      answerCommentId: answerComment.id.toValue(),
+      authorId: "author-2",
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 
   it("should be not find a answer", async () => {
     const answerComment = makeAnswerComment();
 
-    expect(
-      async () =>
-        await sut.execute({
-          answerCommentId: answerComment.id.toValue(),
-          authorId: answerComment.authorId.toValue(),
-        })
-    ).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      answerCommentId: answerComment.id.toValue(),
+      authorId: answerComment.authorId.toValue(),
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

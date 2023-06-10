@@ -1,3 +1,4 @@
+import { Either, right } from "@/core/either";
 import { QuestionComment } from "../../enterprise/entities/question-comment";
 import { QuestionCommentsRepository } from "../repositories/question-comments-repository";
 
@@ -9,9 +10,10 @@ interface FetchQuestionsCommentsCaseRequest {
   limitPerPage?: number;
 }
 
-interface FetchQuestionsCommentsUseCaseResponse {
-  questionComments: QuestionComment[];
-}
+type FetchQuestionsCommentsUseCaseResponse = Either<
+  null,
+  { questionComments: QuestionComment[] }
+>;
 
 export class FetchQuestionsCommentsUseCase {
   constructor(private questionCommentsRepository: QuestionCommentsRepository) {}
@@ -29,8 +31,6 @@ export class FetchQuestionsCommentsUseCase {
         limitPerPage: limit,
       });
 
-    return {
-      questionComments,
-    };
+    return right({ questionComments });
   }
 }

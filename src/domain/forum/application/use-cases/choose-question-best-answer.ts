@@ -1,18 +1,22 @@
 import { AnswersRepository } from "@/domain/forum/application/repositories/answers-repository";
 import { Question } from "../../enterprise/entities/question";
 import { QuestionsRepository } from "../repositories/questions-repository";
+import { Either, left, right } from "@/core/either";
+import { ResourceNotFoundError } from "./errors/resource-not-found- error";
+import { NotAllowedError } from "./errors/not-found-allowed-error";
 
 interface ChooseQuestionBestAnswerRequest {
   authorId: string;
   answerId: string;
 }
 
-interface ChooseQuestionBestAnswerResponse {
-  question: Question;
-}
+type ChooseQuestionBestAnswerResponse = Either<
+  ResourceNotFoundError | NotAllowedError,
+  { question: Question }
+>;
 
 export class ChooseQuestionBestAnswer {
-  constructor (
+  constructor(
     private answersRepository: AnswersRepository,
     private questionsRepository: QuestionsRepository
   ) {}
@@ -22,15 +26,17 @@ export class ChooseQuestionBestAnswer {
     answerId,
   }: ChooseQuestionBestAnswerRequest): Promise<ChooseQuestionBestAnswerResponse> {
     const answer = await this.answersRepository.findById(answerId);
-    
+
     if (!answer) {
-      throw new Error("Answer not found");
+      return left(new ResourceNotFoundError("Answer not found"));
     }
 
-    const question = await this.questionsRepository.findById(answer.questionId.toValue());
+    const question = await this.questionsRepository.findById(
+      answer.questionId.toValue()
+    );
 
     if (!question) {
-      throw new Error("Question not found");
+      return left(new ResourceNotFoundError("Question not found"));
     }
 
     if (question.authorId.toValue() !== authorId) {
@@ -41,9 +47,6 @@ export class ChooseQuestionBestAnswer {
 
     await this.questionsRepository.save(question);
 
-    return {
-      question,
-    }
-    
+    return right({ question });
   }
 }
