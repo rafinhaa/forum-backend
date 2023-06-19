@@ -2,15 +2,21 @@ import { makeAnswer } from "__tests__/factories/make-answer";
 import { InMemoryAnswersRepository } from "__tests__/repositories/in-memory-answers-repository";
 import { FetchQuestionsAnswersUseCase } from "../fetch-questions-answers";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { InMemoryAnswerAttachmentsRepository } from "__tests__/repositories/in-memory-answer-attachments-repository";
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
 let sut: FetchQuestionsAnswersUseCase;
 
 const QUESTION1_ID = new UniqueEntityID("question-1");
 
 describe("Fetch Questions Answers", () => {
   beforeEach(() => {
-    inMemoryAnswersRepository = new InMemoryAnswersRepository();
+    inMemoryAnswerAttachmentsRepository =
+      new InMemoryAnswerAttachmentsRepository();
+    inMemoryAnswersRepository = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachmentsRepository
+    );
     sut = new FetchQuestionsAnswersUseCase(inMemoryAnswersRepository);
   });
 
