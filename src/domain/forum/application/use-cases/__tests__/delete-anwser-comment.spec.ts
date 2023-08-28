@@ -3,8 +3,8 @@ import { InMemoryAnswerCommentsRepository } from "__tests__/repositories/in-memo
 import { DeleteAnswerCommentUseCase } from "../delete-answer-comment";
 import { makeAnswerComment } from "__tests__/factories/make-answer-comment";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { NotAllowedError } from "../errors/not-found-allowed-error";
-import { ResourceNotFoundError } from "../errors/resource-not-found- error";
+import { NotAllowedError } from "@/core/errors/errors/not-found-allowed-error";
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
 
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository;
 let sut: DeleteAnswerCommentUseCase;

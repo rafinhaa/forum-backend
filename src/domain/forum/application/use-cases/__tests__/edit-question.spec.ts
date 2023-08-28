@@ -2,8 +2,8 @@ import { EditQuestionUseCase } from "../edit-question";
 import { InMemoryQuestionsRepository } from "__tests__/repositories/in-memory-questions-repository";
 import { makeQuestion } from "__tests__/factories/make-question";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { NotAllowedError } from "../errors/not-found-allowed-error";
-import { ResourceNotFoundError } from "../errors/resource-not-found- error";
+import { NotAllowedError } from "@/core/errors/errors/not-found-allowed-error";
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
 import { InMemoryQuestionAttachmentsRepository } from "__tests__/repositories/in-memory-question-attachments-repository";
 import { makeQuestionAttachment } from "__tests__/factories/make-question-attachment";
 

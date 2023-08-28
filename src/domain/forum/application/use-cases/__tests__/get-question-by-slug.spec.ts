@@ -1,7 +1,7 @@
 import { GetQuestionBySlugUseCase } from "../get-question-by-slug";
 import { InMemoryQuestionsRepository } from "__tests__/repositories/in-memory-questions-repository";
 import { makeQuestion } from "__tests__/factories/make-question";
-import { ResourceNotFoundError } from "../errors/resource-not-found- error";
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
 import { InMemoryQuestionAttachmentsRepository } from "__tests__/repositories/in-memory-question-attachments-repository";
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;

@@ -5,8 +5,8 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { InMemoryAnswersRepository } from "__tests__/repositories/in-memory-answers-repository";
 import { ChooseQuestionBestAnswer } from "../choose-question-best-answer";
 import { makeAnswer } from "__tests__/factories/make-answer";
-import { NotAllowedError } from "../errors/not-found-allowed-error";
-import { ResourceNotFoundError } from "../errors/resource-not-found- error";
+import { NotAllowedError } from "@/core/errors/errors/not-found-allowed-error";
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
 import { InMemoryQuestionAttachmentsRepository } from "__tests__/repositories/in-memory-question-attachments-repository";
 import { InMemoryAnswerAttachmentsRepository } from "__tests__/repositories/in-memory-answer-attachments-repository";
 
